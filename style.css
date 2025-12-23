@@ -1,32 +1,78 @@
-/* Import Font Profesional */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+/* Import Font Inter (Standard Fintech Modern) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
 
+/* GLOBAL RESET & TYPOGRAPHY */
 html, body, [class*="css"] {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Inter', sans-serif;
+    color: #333333;
+    background-color: #F7F9FC; /* Light Blue-Grey Background (Soft) */
 }
 
-/* Metric Cards */
+/* HIDE STREAMLIT DEFAULT ELEMENTS */
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
+
+/* CONTAINER STYLING */
+.block-container {
+    padding-top: 1.5rem;
+    padding-bottom: 3rem;
+    max-width: 95% !important;
+}
+
+/* METRIC CARDS (Custom Class) */
+div[data-testid="stMetricValue"] {
+    font-size: 28px;
+    font-weight: 700;
+    color: #0e1117;
+}
+
 div[data-testid="metric-container"] {
-    background-color: #ffffff;
-    border: 1px solid #e0e0e0;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    transition: all 0.3s ease;
+    background-color: #FFFFFF;
+    border: 1px solid #E6E8EB;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 div[data-testid="metric-container"]:hover {
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    border-color: #1f77b4;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    border-color: #0052CC;
 }
 
-/* Headers */
-h1, h2, h3 {
-    color: #0e1117;
-    font-weight: 700;
+/* TABS STYLING */
+div[data-testid="stTabs"] button[aria-selected="true"] {
+    color: #0052CC !important;
+    border-top-color: #0052CC !important;
+    font-weight: 600;
 }
 
-/* Sidebar */
+div[data-testid="stTabs"] button {
+    font-weight: 400;
+    color: #6b7280;
+}
+
+/* SIDEBAR */
 section[data-testid="stSidebar"] {
-    background-color: #f8f9fa;
+    background-color: #FFFFFF;
+    border-right: 1px solid #E6E8EB;
+}
+
+/* CUSTOM CARDS */
+.custom-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    border: 1px solid #f3f4f6;
+}
+
+/* HEADINGS */
+h1, h2, h3 {
+    color: #111827;
+    font-weight: 700;
+    letter-spacing: -0.02em;
 }

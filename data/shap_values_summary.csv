@@ -1,0 +1,145 @@
+Feature,Importance,Emiten,Scenario,Category,Feature Name
+Yt,0.03321437105294082,ARTO,baseline,Technical,Close Price
+X1,0.05714990068280036,ARTO,baseline,Technical,Open Price
+X2,0.03274043155140248,ARTO,baseline,Technical,High Price
+X3,0.05902445751263806,ARTO,baseline,Technical,Low Price
+X4,0.0282655974065898,ARTO,baseline,Technical,Volume
+X5,0.03235069421944186,ARTO,baseline,Technical,MACD
+X6,0.04003801827632555,ARTO,baseline,Technical,RSI
+Yt,0.04293813450072117,BBCA,baseline,Technical,Close Price
+X1,0.02964147858865833,BBCA,baseline,Technical,Open Price
+X2,0.08919165464993115,BBCA,baseline,Technical,High Price
+X3,0.05167731229440133,BBCA,baseline,Technical,Low Price
+X4,0.03777121745057212,BBCA,baseline,Technical,Volume
+X5,0.025213699116263685,BBCA,baseline,Technical,MACD
+X6,0.047077568886332535,BBCA,baseline,Technical,RSI
+Yt,0.012494915304669769,BBNI,baseline,Technical,Close Price
+X1,0.015478601017417297,BBNI,baseline,Technical,Open Price
+X2,0.03218879482556586,BBNI,baseline,Technical,High Price
+X3,0.03036491679219209,BBNI,baseline,Technical,Low Price
+X4,0.01732283828815676,BBNI,baseline,Technical,Volume
+X5,0.027406904784471983,BBNI,baseline,Technical,MACD
+X6,0.029554322859596534,BBNI,baseline,Technical,RSI
+Yt,0.014107980500935011,BBRI,baseline,Technical,Close Price
+X1,0.0355217062675747,BBRI,baseline,Technical,Open Price
+X2,0.02402470610849766,BBRI,baseline,Technical,High Price
+X3,0.03776719694025134,BBRI,baseline,Technical,Low Price
+X4,0.027787090165508517,BBRI,baseline,Technical,Volume
+X5,0.020820269287944754,BBRI,baseline,Technical,MACD
+X6,0.021431209450245084,BBRI,baseline,Technical,RSI
+Yt,0.03942569056206795,BBTN,baseline,Technical,Close Price
+X1,0.056548308893835955,BBTN,baseline,Technical,Open Price
+X2,0.04258177895232042,BBTN,baseline,Technical,High Price
+X3,0.03790373273355887,BBTN,baseline,Technical,Low Price
+X4,0.03249625721481246,BBTN,baseline,Technical,Volume
+X5,0.06108629522882948,BBTN,baseline,Technical,MACD
+X6,0.06550149939894201,BBTN,baseline,Technical,RSI
+Yt,0.026616497370607298,BMRI,baseline,Technical,Close Price
+X1,0.0682473000498371,BMRI,baseline,Technical,Open Price
+X2,0.03243528597659129,BMRI,baseline,Technical,High Price
+X3,0.035049962399912205,BMRI,baseline,Technical,Low Price
+X4,0.025661435400422365,BMRI,baseline,Technical,Volume
+X5,0.016906751748086857,BMRI,baseline,Technical,MACD
+X6,0.0190560146690359,BMRI,baseline,Technical,RSI
+Yt,0.013745220530023885,BRIS,baseline,Technical,Close Price
+X1,0.01930861639979358,BRIS,baseline,Technical,Open Price
+X2,0.038379692450035766,BRIS,baseline,Technical,High Price
+X3,0.023316765784376355,BRIS,baseline,Technical,Low Price
+X4,0.048231769713232,BRIS,baseline,Technical,Volume
+X5,0.044454453737899025,BRIS,baseline,Technical,MACD
+X6,0.051656234948853796,BRIS,baseline,Technical,RSI
+Yt,0.011727924721472322,GOTO,baseline,Technical,Close Price
+X1,0.030106858517684142,GOTO,baseline,Technical,Open Price
+X2,0.08076584491667226,GOTO,baseline,Technical,High Price
+X3,0.04868620905172348,GOTO,baseline,Technical,Low Price
+X4,0.02694177150545088,GOTO,baseline,Technical,Volume
+X5,0.01923487901453099,GOTO,baseline,Technical,MACD
+X6,0.05791188449843176,GOTO,baseline,Technical,RSI
+Yt,0.025557047334077765,ARTO,fusion,Technical,Close Price
+X1,0.016662440903146954,ARTO,fusion,Technical,Open Price
+X2,0.03136434594603387,ARTO,fusion,Technical,High Price
+X3,0.02777307765181541,ARTO,fusion,Technical,Low Price
+X4,0.018013199756090597,ARTO,fusion,Technical,Volume
+X5,0.028441762281720146,ARTO,fusion,Technical,MACD
+X6,0.018891464273629602,ARTO,fusion,Technical,RSI
+X7,0.02354778230181685,ARTO,fusion,Sentiment,Sentimen (Prob)
+X8,0.021832161900713094,ARTO,fusion,Sentiment,Sentimen (Vol)
+X9,0.01950364972665458,ARTO,fusion,Sentiment,Freq News
+X10,0.019126356284599327,ARTO,fusion,Sentiment,Freq Stockbit
+Yt,0.053189385370114035,BBCA,fusion,Technical,Close Price
+X1,0.04135728866904391,BBCA,fusion,Technical,Open Price
+X2,0.057278726313053745,BBCA,fusion,Technical,High Price
+X3,0.08463878575860509,BBCA,fusion,Technical,Low Price
+X4,0.043017913008822156,BBCA,fusion,Technical,Volume
+X5,0.024596957955961108,BBCA,fusion,Technical,MACD
+X6,0.06334019264126003,BBCA,fusion,Technical,RSI
+X7,0.014170198271937566,BBCA,fusion,Sentiment,Sentimen (Prob)
+X8,0.010100480023194598,BBCA,fusion,Sentiment,Sentimen (Vol)
+X9,0.021818797320533444,BBCA,fusion,Sentiment,Freq News
+X10,0.018743066956620452,BBCA,fusion,Sentiment,Freq Stockbit
+Yt,0.019612647071059263,BBNI,fusion,Technical,Close Price
+X1,0.007442600439548903,BBNI,fusion,Technical,Open Price
+X2,0.009932199561935133,BBNI,fusion,Technical,High Price
+X3,0.015334561989244627,BBNI,fusion,Technical,Low Price
+X4,0.02063934382536232,BBNI,fusion,Technical,Volume
+X5,0.028238757634329714,BBNI,fusion,Technical,MACD
+X6,0.01551555993616073,BBNI,fusion,Technical,RSI
+X7,0.00945817930714559,BBNI,fusion,Sentiment,Sentimen (Prob)
+X8,0.017627954090409213,BBNI,fusion,Sentiment,Sentimen (Vol)
+X9,0.017709018391752734,BBNI,fusion,Sentiment,Freq News
+X10,0.004355871656437616,BBNI,fusion,Sentiment,Freq Stockbit
+Yt,0.014117229771168912,BBRI,fusion,Technical,Close Price
+X1,0.0119374567012573,BBRI,fusion,Technical,Open Price
+X2,0.011669658062715126,BBRI,fusion,Technical,High Price
+X3,0.023495600232432516,BBRI,fusion,Technical,Low Price
+X4,0.0106883125228079,BBRI,fusion,Technical,Volume
+X5,0.041989660534565765,BBRI,fusion,Technical,MACD
+X6,0.020116952302480687,BBRI,fusion,Technical,RSI
+X7,0.011038493804285678,BBRI,fusion,Sentiment,Sentimen (Prob)
+X8,0.01355317272943084,BBRI,fusion,Sentiment,Sentimen (Vol)
+X9,0.007523908524946273,BBRI,fusion,Sentiment,Freq News
+X10,0.02208062626049561,BBRI,fusion,Sentiment,Freq Stockbit
+Yt,0.03356395446118528,BBTN,fusion,Technical,Close Price
+X1,0.06996590461565183,BBTN,fusion,Technical,Open Price
+X2,0.008378040318986165,BBTN,fusion,Technical,High Price
+X3,0.019003151030200234,BBTN,fusion,Technical,Low Price
+X4,0.05608742786837846,BBTN,fusion,Technical,Volume
+X5,0.037586408910214884,BBTN,fusion,Technical,MACD
+X6,0.010409636215154831,BBTN,fusion,Technical,RSI
+X7,0.02894819641157929,BBTN,fusion,Sentiment,Sentimen (Prob)
+X8,0.015222044873697967,BBTN,fusion,Sentiment,Sentimen (Vol)
+X9,0.014736140470309146,BBTN,fusion,Sentiment,Freq News
+X10,0.017579605794797754,BBTN,fusion,Sentiment,Freq Stockbit
+Yt,0.03251269152977421,BMRI,fusion,Technical,Close Price
+X1,0.022374957094129715,BMRI,fusion,Technical,Open Price
+X2,0.02826661190002283,BMRI,fusion,Technical,High Price
+X3,0.020366525239592453,BMRI,fusion,Technical,Low Price
+X4,0.011508147848770021,BMRI,fusion,Technical,Volume
+X5,0.00431503393733874,BMRI,fusion,Technical,MACD
+X6,0.016129191832530407,BMRI,fusion,Technical,RSI
+X7,0.019907491167946427,BMRI,fusion,Sentiment,Sentimen (Prob)
+X8,0.009562176226195363,BMRI,fusion,Sentiment,Sentimen (Vol)
+X9,0.015142708406413703,BMRI,fusion,Sentiment,Freq News
+X10,0.005166348728902705,BMRI,fusion,Sentiment,Freq Stockbit
+Yt,0.007033091724635548,BRIS,fusion,Technical,Close Price
+X1,0.017090308872380305,BRIS,fusion,Technical,Open Price
+X2,0.03395375200565625,BRIS,fusion,Technical,High Price
+X3,0.01477411307396878,BRIS,fusion,Technical,Low Price
+X4,0.009375073725411246,BRIS,fusion,Technical,Volume
+X5,0.02674172700811013,BRIS,fusion,Technical,MACD
+X6,0.02389041202146691,BRIS,fusion,Technical,RSI
+X7,0.009469870244409697,BRIS,fusion,Sentiment,Sentimen (Prob)
+X8,0.007196636714525801,BRIS,fusion,Sentiment,Sentimen (Vol)
+X9,0.024083628857322827,BRIS,fusion,Sentiment,Freq News
+X10,0.008724055358308471,BRIS,fusion,Sentiment,Freq Stockbit
+Yt,0.020656359384693842,GOTO,fusion,Technical,Close Price
+X1,0.01668521663707537,GOTO,fusion,Technical,Open Price
+X2,0.01759932526318217,GOTO,fusion,Technical,High Price
+X3,0.012936387993238102,GOTO,fusion,Technical,Low Price
+X4,0.00937450655247992,GOTO,fusion,Technical,Volume
+X5,0.023949728149085376,GOTO,fusion,Technical,MACD
+X6,0.017364523911670038,GOTO,fusion,Technical,RSI
+X7,0.022347147425315045,GOTO,fusion,Sentiment,Sentimen (Prob)
+X8,0.02122136769428651,GOTO,fusion,Sentiment,Sentimen (Vol)
+X9,0.017159692434422873,GOTO,fusion,Sentiment,Freq News
+X10,0.009151779579580405,GOTO,fusion,Sentiment,Freq Stockbit
