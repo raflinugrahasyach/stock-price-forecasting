@@ -1,0 +1,32 @@
+/* Import Font Profesional */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+html, body, [class*="css"] {
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Metric Cards */
+div[data-testid="metric-container"] {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+
+div[data-testid="metric-container"]:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-color: #1f77b4;
+}
+
+/* Headers */
+h1, h2, h3 {
+    color: #0e1117;
+    font-weight: 700;
+}
+
+/* Sidebar */
+section[data-testid="stSidebar"] {
+    background-color: #f8f9fa;
+}

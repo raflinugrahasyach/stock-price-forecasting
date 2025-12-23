@@ -1,0 +1,25 @@
+# Sampah Python (Compiled files)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environment (Jangan upload folder installasi python lokal!)
+venv/
+env/
+.env
+.venv/
+
+# IDE Settings (VS Code / PyCharm settings)
+.vscode/
+.idea/
+
+# File Sistem Operasi (Mac/Windows junk)
+.DS_Store
+Thumbs.db
+
+# Streamlit Secrets (PENTING: Jangan upload password/key API jika nanti pakai)
+.streamlit/secrets.toml
+
+# Kalau ada file zip besar yang tidak perlu
+*.zip

@@ -1,0 +1,9 @@
+streamlit
+pandas
+numpy
+plotly
+joblib
+openpyxl
+scikit-learn
+# INI KUNCINYA: Paksa versi 2.16 ke atas agar support Keras 3 (sama kayak Colab)
+tensorflow>=2.16.1
