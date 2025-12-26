@@ -86,19 +86,42 @@ if not df.empty and selected_emiten in df['relevant_issuer'].values:
     ])
     
     # =========================================
-    # TAB 1: MARKET OVERVIEW
+    # TAB 1: MARKET OVERVIEW (REWORKED CONTROL PANEL)
     # =========================================
     with tab_market:
-        # Date Filter
-        min_date = df_e['date'].min().date()
-        max_date = df_e['date'].max().date()
-        default_start = max_date - timedelta(days=180)
-        
-        c_filter1, c_filter2 = st.columns([1, 4])
-        with c_filter1:
-            date_range = st.date_input("Filter Date Range", value=(default_start, max_date), min_value=min_date, max_value=max_date)
-        
-        # Filter Logic
+        # --- CONFIGURATION TOOLBAR ---
+        # Menggunakan container dengan border halus agar terlihat seperti "Toolbar"
+        with st.container():
+            st.markdown("""
+            <div style="background-color: white; padding: 15px; border-radius: 10px; border: 1px solid #e5e7eb; margin-bottom: 20px; display: flex; align-items: center; gap: 20px;">
+                <span style="font-size: 12px; font-weight: 700; color: #6b7280; text-transform: uppercase;">⚙️ CHART SETTINGS</span>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Layout Kolom: Kiri (Date), Kanan (Indicators)
+            c_tools1, c_tools2 = st.columns([1, 2])
+            
+            with c_tools1:
+                # Date Filter
+                min_date = df_e['date'].min().date()
+                max_date = df_e['date'].max().date()
+                default_start = max_date - timedelta(days=180)
+                date_range = st.date_input("Timeframe Range", value=(default_start, max_date), min_value=min_date, max_value=max_date)
+
+            with c_tools2:
+                # Indicator Multiselect (Lebih rapi daripada banyak checkbox)
+                available_inds = ["Moving Average (20)", "Volume", "MACD", "RSI"]
+                default_inds = ["Volume"] # Default bersih, cuma harga & volume
+                
+                selected_inds = st.multiselect(
+                    "Active Indicators", 
+                    available_inds, 
+                    default=default_inds,
+                    placeholder="Add technical indicators..."
+                )
+
+        # --- CHART RENDERING ---
+        # 1. Filter Data by Date
         if isinstance(date_range, tuple) and len(date_range) == 2:
             start_d, end_d = date_range
             mask = (df_e['date'].dt.date >= start_d) & (df_e['date'].dt.date <= end_d)
@@ -106,17 +129,35 @@ if not df.empty and selected_emiten in df['relevant_issuer'].values:
         else:
             df_plot = df_e 
 
-        st.markdown(f"**Technical Analysis Chart: {selected_emiten}**")
-        fig_tech = plot_advanced_technical(df_plot, selected_emiten)
+        # 2. Parse Selected Indicators
+        show_ma = "Moving Average (20)" in selected_inds
+        show_vol = "Volume" in selected_inds
+        show_macd = "MACD" in selected_inds
+        show_rsi = "RSI" in selected_inds
+
+        # 3. Plot Chart
+        fig_tech = plot_advanced_technical(df_plot, selected_emiten, show_ma, show_vol, show_macd, show_rsi)
         st.plotly_chart(fig_tech, use_container_width=True)
         
-        st.markdown("### Historical Data Grid")
-        with st.expander("Show/Hide Data Table", expanded=False):
+        # --- DATA GRID (Footer) ---
+        st.markdown("### 📋 Historical Data Log")
+        with st.expander("View Raw Data Table", expanded=False):
             display_cols = ['date', 'Yt', 'X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7']
             friendly_names = {'date': 'Date', 'Yt': 'Close', 'X1': 'Open', 'X2': 'High', 'X3': 'Low', 'X4': 'Volume', 'X5': 'MACD', 'X6': 'RSI', 'X7': 'Sentiment'}
+            
             df_table = df_plot[display_cols].copy().sort_values('date', ascending=False).rename(columns=friendly_names)
             df_table['Date'] = df_table['Date'].dt.strftime('%Y-%m-%d')
-            st.dataframe(df_table, use_container_width=True, hide_index=True)
+            
+            st.dataframe(
+                df_table, 
+                use_container_width=True, 
+                hide_index=True,
+                column_config={
+                    "Close": st.column_config.NumberColumn(format="Rp %d"),
+                    "Volume": st.column_config.NumberColumn(format="%d"),
+                    "Sentiment": st.column_config.NumberColumn(format="%.4f"),
+                }
+            )
 
     # =========================================
     # TAB 2: FORECAST SIMULATOR (PROFESIONAL UI REWORK)

@@ -2,69 +2,129 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import pandas as pd
 
-def plot_advanced_technical(df, emiten):
+def plot_advanced_technical(df, emiten, show_ma=True, show_vol=True, show_macd=False, show_rsi=False):
     """
-    Robinhood-style Charting: Clean, Minimalist, Interactive
+    Professional Charting with Dynamic Indicator Layout (TradingView Style)
     """
     df_plot = df.copy()
+
+    # 1. Tentukan Struktur Layout (Berapa baris?)
+    panels = ['price']
+    if show_vol: panels.append('volume')
+    if show_macd: panels.append('macd')
+    if show_rsi: panels.append('rsi')
+
+    n_rows = len(panels)
     
-    # Warna Candlestick Modern (Pluang Style)
-    incr_color = '#00C853' # Vivid Green
-    decr_color = '#FF3D00' # Vivid Red
-    
-    # Layout: Harga (70%), Volume (30%) - Indikator MACD/RSI opsional/hidden by default biar bersih
+    # Hitung Tinggi Baris secara Proporsional
+    # Baris 1 (Harga) selalu dominan, sisanya berbagi ruang
+    if n_rows == 1: row_heights = [1.0]
+    elif n_rows == 2: row_heights = [0.7, 0.3]
+    elif n_rows == 3: row_heights = [0.6, 0.2, 0.2]
+    elif n_rows == 4: row_heights = [0.5, 0.15, 0.15, 0.2]
+    else: row_heights = [1.0/n_rows] * n_rows 
+
     fig = make_subplots(
-        rows=2, cols=1, 
+        rows=n_rows, cols=1, 
         shared_xaxes=True, 
-        vertical_spacing=0.05,
-        row_heights=[0.7, 0.3],
-        specs=[[{"secondary_y": False}], [{"secondary_y": False}]]
+        vertical_spacing=0.02, # Spasi antar chart rapat ala pro
+        row_heights=row_heights
     )
 
-    # 1. PRICE LINE (Area Chart ala Robinhood - Lebih clean drpd Candle kadang)
-    # TAPI karena ini analisis teknikal, Candle tetap terbaik. Kita buat Candle yg clean.
+    # --- PANEL 1: PRICE CHART (Selalu Ada) ---
+    incr_color = '#00C853' # Hijau Vivid
+    decr_color = '#FF3D00' # Merah Vivid
+    
+    # Candlestick
     fig.add_trace(go.Candlestick(
         x=df_plot['date'],
         open=df_plot['X1'], high=df_plot['X2'],
         low=df_plot['X3'], close=df_plot['Yt'],
         name='OHLC',
         increasing_line_color=incr_color,
-        decreasing_line_color=decr_color,
-        increasing_fillcolor=incr_color, # Isi badan candle
-        decreasing_fillcolor=decr_color
+        decreasing_line_color=decr_color
     ), row=1, col=1)
 
-    # Moving Average (Pemanis wajib)
-    fig.add_trace(go.Scatter(
-        x=df_plot['date'], y=df_plot['Yt'].rolling(window=20).mean(),
-        name='MA20', line=dict(color='#2962FF', width=1.5), opacity=0.7
-    ), row=1, col=1)
+    # Moving Average (Opsional)
+    if show_ma:
+        fig.add_trace(go.Scatter(
+            x=df_plot['date'], y=df_plot['Yt'].rolling(window=20).mean(),
+            name='MA (20)', line=dict(color='#2962FF', width=1.5), opacity=0.8
+        ), row=1, col=1)
 
-    # 2. VOLUME (Bar Chart Minimalis)
-    vol_colors = [incr_color if c >= o else decr_color for c, o in zip(df_plot['Yt'], df_plot['X1'])]
-    fig.add_trace(go.Bar(
-        x=df_plot['date'], y=df_plot['X4'],
-        name='Volume', marker_color=vol_colors, opacity=0.3 # Transparan biar gak ganggu
-    ), row=2, col=1)
+    # --- PANEL DINAMIS (Volume, MACD, RSI) ---
+    curr_row = 2
 
-    # STYLING PARAH (Biar mahal)
+    # 2. VOLUME
+    if show_vol:
+        vol_colors = [incr_color if c >= o else decr_color for c, o in zip(df_plot['Yt'], df_plot['X1'])]
+        fig.add_trace(go.Bar(
+            x=df_plot['date'], y=df_plot['X4'],
+            name='Volume', marker_color=vol_colors, opacity=0.5
+        ), row=curr_row, col=1)
+        # Format Y-Axis Volume
+        fig.update_yaxes(title_text="Vol", row=curr_row, col=1, showgrid=False, showticklabels=False)
+        curr_row += 1
+
+    # 3. MACD
+    if show_macd:
+        # Kita pakai kolom X5 (MACD Line) dari data loader
+        # Cek apakah kolom signal/hist ada di dataframe asli, jika tidak plot MACD line saja
+        fig.add_trace(go.Scatter(
+            x=df_plot['date'], y=df_plot['X5'],
+            name='MACD', line=dict(color='#2962FF', width=1.5)
+        ), row=curr_row, col=1)
+        
+        # Coba plot signal/hist jika tersedia (tergantung load_dataset Anda)
+        if 'macd_signal' in df_plot.columns:
+             fig.add_trace(go.Scatter(
+                x=df_plot['date'], y=df_plot['macd_signal'],
+                name='Signal', line=dict(color='#FF6D00', width=1.5)
+            ), row=curr_row, col=1)
+        
+        if 'macd_hist' in df_plot.columns:
+             fig.add_trace(go.Bar(
+                x=df_plot['date'], y=df_plot['macd_hist'],
+                name='Hist', marker_color='#B0BEC5'
+            ), row=curr_row, col=1)
+
+        fig.update_yaxes(title_text="MACD", row=curr_row, col=1)
+        curr_row += 1
+
+    # 4. RSI
+    if show_rsi:
+        fig.add_trace(go.Scatter(
+            x=df_plot['date'], y=df_plot['X6'],
+            name='RSI', line=dict(color='#AA00FF', width=1.5)
+        ), row=curr_row, col=1)
+        
+        # Garis Batas 30/70
+        fig.add_shape(type="line", row=curr_row, col=1, xref="x", yref="y",
+            x0=df_plot['date'].iloc[0], x1=df_plot['date'].iloc[-1],
+            y0=70, y1=70, line=dict(color="gray", width=1, dash="dash", opacity=0.5))
+        fig.add_shape(type="line", row=curr_row, col=1, xref="x", yref="y",
+            x0=df_plot['date'].iloc[0], x1=df_plot['date'].iloc[-1],
+            y0=30, y1=30, line=dict(color="gray", width=1, dash="dash", opacity=0.5))
+            
+        fig.update_yaxes(title_text="RSI", range=[0,100], row=curr_row, col=1)
+        curr_row += 1
+
+    # STYLING GLOBAL
+    height_calc = 400 + (n_rows * 100) # Tinggi otomatis menyesuaikan jumlah panel
+    
     fig.update_layout(
-        title=dict(text=f"<b>{emiten}</b> Price Action", font=dict(size=24, family="Inter")),
+        title=dict(text=f"<b>{emiten}</b> Market Action", font=dict(size=18, family="Inter")),
         template="plotly_white",
-        height=600,
+        height=height_calc,
         showlegend=False,
-        margin=dict(l=0, r=40, t=50, b=20),
-        xaxis=dict(
-            rangeslider=dict(visible=False), # Hapus slider bawah yg jelek
-            showgrid=False,
-            type="date"
-        ),
-        yaxis=dict(showgrid=True, gridcolor='#F3F4F6', side='right'), # Harga di kanan ala TradingView
-        yaxis2=dict(showgrid=False, side='right', showticklabels=False), # Volume tanpa angka y-axis
+        margin=dict(l=10, r=40, t=50, b=20),
         hovermode="x unified",
-        paper_bgcolor='rgba(0,0,0,0)', # Transparan
-        plot_bgcolor='rgba(0,0,0,0)'
+        xaxis=dict(showgrid=False, type="date", rangeslider=dict(visible=False))
     )
+    
+    # Hilangkan label X-axis di chart bagian atas agar tidak menumpuk
+    for i in range(1, n_rows):
+        fig.update_xaxes(showticklabels=False, row=i, col=1)
 
     return fig
 
