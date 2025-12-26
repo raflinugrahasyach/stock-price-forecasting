@@ -17,7 +17,6 @@ def plot_advanced_technical(df, emiten, show_ma=True, show_vol=True, show_macd=F
     n_rows = len(panels)
     
     # Hitung Tinggi Baris secara Proporsional
-    # Baris 1 (Harga) selalu dominan, sisanya berbagi ruang
     if n_rows == 1: row_heights = [1.0]
     elif n_rows == 2: row_heights = [0.7, 0.3]
     elif n_rows == 3: row_heights = [0.6, 0.2, 0.2]
@@ -27,7 +26,7 @@ def plot_advanced_technical(df, emiten, show_ma=True, show_vol=True, show_macd=F
     fig = make_subplots(
         rows=n_rows, cols=1, 
         shared_xaxes=True, 
-        vertical_spacing=0.02, # Spasi antar chart rapat ala pro
+        vertical_spacing=0.03,
         row_heights=row_heights
     )
 
@@ -68,20 +67,20 @@ def plot_advanced_technical(df, emiten, show_ma=True, show_vol=True, show_macd=F
 
     # 3. MACD
     if show_macd:
-        # Kita pakai kolom X5 (MACD Line) dari data loader
-        # Cek apakah kolom signal/hist ada di dataframe asli, jika tidak plot MACD line saja
+        # MACD Line (X5)
         fig.add_trace(go.Scatter(
             x=df_plot['date'], y=df_plot['X5'],
             name='MACD', line=dict(color='#2962FF', width=1.5)
         ), row=curr_row, col=1)
         
-        # Coba plot signal/hist jika tersedia (tergantung load_dataset Anda)
+        # Signal Line (Cek ketersediaan kolom)
         if 'macd_signal' in df_plot.columns:
              fig.add_trace(go.Scatter(
                 x=df_plot['date'], y=df_plot['macd_signal'],
                 name='Signal', line=dict(color='#FF6D00', width=1.5)
             ), row=curr_row, col=1)
         
+        # Histogram (Cek ketersediaan kolom)
         if 'macd_hist' in df_plot.columns:
              fig.add_trace(go.Bar(
                 x=df_plot['date'], y=df_plot['macd_hist'],
@@ -91,26 +90,34 @@ def plot_advanced_technical(df, emiten, show_ma=True, show_vol=True, show_macd=F
         fig.update_yaxes(title_text="MACD", row=curr_row, col=1)
         curr_row += 1
 
-    # 4. RSI
+    # 4. RSI (BAGIAN YANG SEBELUMNYA ERROR)
     if show_rsi:
         fig.add_trace(go.Scatter(
             x=df_plot['date'], y=df_plot['X6'],
             name='RSI', line=dict(color='#AA00FF', width=1.5)
         ), row=curr_row, col=1)
         
-        # Garis Batas 30/70
-        fig.add_shape(type="line", row=curr_row, col=1, xref="x", yref="y",
+        # Garis Batas 30/70 (FIXED)
+        # Hapus xref="x" dan yref="y".
+        # Pindahkan opacity keluar dari dict line.
+        fig.add_shape(type="line", row=curr_row, col=1,
             x0=df_plot['date'].iloc[0], x1=df_plot['date'].iloc[-1],
-            y0=70, y1=70, line=dict(color="gray", width=1, dash="dash", opacity=0.5))
-        fig.add_shape(type="line", row=curr_row, col=1, xref="x", yref="y",
+            y0=70, y1=70,
+            line=dict(color="gray", width=1, dash="dash"),
+            opacity=0.5 
+        )
+        fig.add_shape(type="line", row=curr_row, col=1,
             x0=df_plot['date'].iloc[0], x1=df_plot['date'].iloc[-1],
-            y0=30, y1=30, line=dict(color="gray", width=1, dash="dash", opacity=0.5))
+            y0=30, y1=30,
+            line=dict(color="gray", width=1, dash="dash"),
+            opacity=0.5
+        )
             
         fig.update_yaxes(title_text="RSI", range=[0,100], row=curr_row, col=1)
         curr_row += 1
 
     # STYLING GLOBAL
-    height_calc = 400 + (n_rows * 100) # Tinggi otomatis menyesuaikan jumlah panel
+    height_calc = 400 + (n_rows * 100)
     
     fig.update_layout(
         title=dict(text=f"<b>{emiten}</b> Market Action", font=dict(size=18, family="Inter")),
@@ -122,7 +129,7 @@ def plot_advanced_technical(df, emiten, show_ma=True, show_vol=True, show_macd=F
         xaxis=dict(showgrid=False, type="date", rangeslider=dict(visible=False))
     )
     
-    # Hilangkan label X-axis di chart bagian atas agar tidak menumpuk
+    # Hilangkan label X-axis di chart bagian atas
     for i in range(1, n_rows):
         fig.update_xaxes(showticklabels=False, row=i, col=1)
 
@@ -132,7 +139,6 @@ def plot_interactive_forecast(df_hist, pred_base, pred_fuse, dates_fut, emiten):
     """
     Fan Chart untuk Halaman Prediksi
     """
-    # Ambil data secukupnya untuk konteks visual (misal 3 bulan terakhir)
     last_30 = df_hist.tail(90)
     
     fig = go.Figure()
@@ -178,23 +184,19 @@ def plot_interactive_forecast(df_hist, pred_base, pred_fuse, dates_fut, emiten):
 
 def plot_interactive_shap(df_shap, title_text):
     """
-    Plot SHAP Values secara Interaktif (Bar Chart Horizontal).
-    Warna otomatis beda antara Technical vs Sentiment.
+    Plot SHAP Values secara Interaktif
     """
-    # Sort biar yang paling penting di atas
     df_sorted = df_shap.sort_values('Importance', ascending=True)
-    
-    # Warna: Biru (Tech), Merah (Sentiment)
     colors = ['#d62728' if cat == 'Sentiment' else '#1f77b4' for cat in df_sorted['Category']]
     
     fig = go.Figure()
     
     fig.add_trace(go.Bar(
-        y=df_sorted['Feature Name'], # Pakai nama yang cantik
+        y=df_sorted['Feature Name'],
         x=df_sorted['Importance'],
         orientation='h',
         marker=dict(color=colors, opacity=0.9),
-        text=df_sorted['Importance'].apply(lambda x: f"{x:.4f}"), # Tampilkan angka di bar
+        text=df_sorted['Importance'].apply(lambda x: f"{x:.4f}"),
         textposition='auto',
         hovertemplate='<b>%{y}</b><br>Impact: %{x:.5f}<br>Category: %{customdata}<extra></extra>',
         customdata=df_sorted['Category']
@@ -210,7 +212,6 @@ def plot_interactive_shap(df_shap, title_text):
         showlegend=False
     )
     
-    # Tambahkan Legend Manual pakai Annotation dummy (biar user tahu merah itu apa)
     fig.add_annotation(x=1, y=0, xref='paper', yref='paper', text='🟦 Technical', showarrow=False, xanchor='right', yanchor='bottom', yshift=-30, xshift=-80)
     fig.add_annotation(x=1, y=0, xref='paper', yref='paper', text='🟥 Sentiment', showarrow=False, xanchor='right', yanchor='bottom', yshift=-30)
 
